@@ -4,7 +4,7 @@
 import { getAddress } from "https://esm.sh/viem";
 
 export const contractaddress = getAddress(
-  "0xa7f1c80a21b5c68b4471682b7dad4ecddfb6dd70"
+  "0x53E3DE0C475b5f2e7167D57a197776558773f863"
 );
 
 export const abi = [

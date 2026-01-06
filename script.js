@@ -1,112 +1,49 @@
-import {
-  createWalletClient,
-  custom,
-  createPublicClient,
-  defineChain,
-} from "https://esm.sh/viem";
-
+import { BrowserProvider, ethers } from "./node_modules/ethers/dist/ethers.min.js";
 import { abi, contractaddress } from "./constant.js";
 
-const favnumber = document.getElementById("numberinput");
-const output = document.getElementById("output");
+
+
 const connectButton = document.getElementById("connect");
 const setButton = document.getElementById("set");
-const setValueInput = document.getElementById("setvalue");
 const getButton = document.getElementById("get");
-
-let walletClient;
-let publicClient;
-
-favnumber.addEventListener("input", function () {
-  output.textContent = "Your favourite number is: " + favnumber.value;
+const input = document.getElementById("setvalue");
+const output = document.getElementById("output");
+const numberinput = document.getElementById("numberinput");
+numberinput.addEventListener("input", () => {
+  const value = numberinput.value;
+  output.textContent = "You entered: " + value;
 });
 
-connectButton.onclick = connect;
+
+
+connectButton.onclick= connect;
+let provider;
+let signer;
+let contract;
 
 async function connect() {
   if (typeof window.ethereum !== "undefined") {
-    walletClient = createWalletClient({
-      transport: custom(window.ethereum),
-    });
+    
+    await ethereum.request({ method: "eth_requestAccounts" });
+   provider = new ethers.BrowserProvider(window.ethereum);
+ signer = await provider.getSigner();
+ contract = new ethers.Contract(contractaddress, abi, signer);
+    connectButton.innerText = "Connected!";
 
-    await walletClient.requestAddresses();
-    connectButton.innerHTML = "Connected!";
-  } else {
-    connectButton.innerHTML = "Please install MetaMask!";
   }
 }
+setButton.onclick= setvalue;
+async function setvalue() {
+  const value = input.value;
+alert("Setting value to " + value);
+const tx=await contract.SetValue(value);
+await tx.wait();
+const updatedValue=await contract.GetValue();
+alert("Value set to " + updatedValue.toString());}
 
-setButton.onclick = SetValue;
-
-async function SetValue() {
-  let valueToSet = setValueInput.value;
-
-  if (typeof window.ethereum !== "undefined") {
-    walletClient = createWalletClient({
-      transport: custom(window.ethereum),
-    });
-
-    const [connectedaccount] = await walletClient.requestAddresses();
-    const currentChain = await getCurrentChain(walletClient);
-
-    publicClient = createPublicClient({
-      transport: custom(window.ethereum),
-    });
-
-    const { request } = await publicClient.simulateContract({
-      address: contractaddress,
-      abi: abi,
-      functionName: "SetValue",
-      account: connectedaccount,
-      chain: currentChain,
-      args: [BigInt(valueToSet)],
-    });
-
-    const hash = await walletClient.writeContract(request);
-  } else {
-    setButton.innerHTML = "Please install MetaMask!";
-    return;
-  }
+getButton.onclick= getvalue;
+async function getvalue() {
+  const values = await contract.GetValue();
+  getButton.innerText = values.toString();
 }
 
-async function getCurrentChain(client) {
-  const chainId = await client.getChainId();
-
-  const currentChain = defineChain({
-    id: chainId,
-    name: "Custom Chain",
-    nativeCurrency: {
-      name: "Ether",
-      symbol: "ETH",
-      decimals: 18,
-    },
-    rpcUrls: {
-      default: {
-        http: ["http://localhost:8545"],
-      },
-    },
-  });
-
-  return currentChain;
-}
-
-getButton.onclick = GetValue;
-
-async function GetValue() {
-  if (typeof window.ethereum !== "undefined") {
-    publicClient = createPublicClient({
-      transport: custom(window.ethereum),
-    });
-
-    const value = await publicClient.readContract({
-      address: contractaddress,
-      abi: abi,
-      functionName: "GetValue",
-    });
-
-    getButton.innerHTML = "Stored Number is: " + value.toString();
-  } else {
-    getButton.innerHTML = "Please install MetaMask!";
-    return;
-  }
-}

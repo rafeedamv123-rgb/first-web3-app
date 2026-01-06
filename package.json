@@ -1,0 +1,24 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "This is my first web3 app. checking..",
+  "main": "constant.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafeedamv123-rgb/first-web3-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/rafeedamv123-rgb/first-web3-app/issues"
+  },
+  "homepage": "https://github.com/rafeedamv123-rgb/first-web3-app#readme",
+  "dependencies": {
+    "ethers": "^6.16.0"
+  }
+}
