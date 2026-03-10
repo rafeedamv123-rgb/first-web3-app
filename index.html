@@ -4,25 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
     <title>My First Web3 App</title>
 </head>
 <body>
-    <img src="real.jpeg" alt="Profile Picture">
-    <div id="intro">Hello! I'm Fathima Rafeeda . I'm studying Geological Technology in IIT Roorkee as a first year student.
-     I come from the beautiful state of Kerala, India. I like to play piano and skate. I also have huge interest in Web3 and blockchain.
-         <a href="https://github.com/rafeedamv123-rgb"> Visit my GitHub Profile</a></div>
+    <div class="page-wrapper">
+        <header class="hero">
+            <img src="real.jpeg" alt="Profile Picture" class="profile-img">
+            <div class="intro-card" id="intro">
+                <p class="intro-text">Hello! I'm Fathima Rafeeda. I'm studying Geological Technology in IIT Roorkee as a first year student. I come from the beautiful state of Kerala, India. I like to play piano and skate. I also have huge interest in Web3 and blockchain.</p>
+                <a href="https://github.com/rafeedamv123-rgb" class="link-github" target="_blank" rel="noopener">Visit my GitHub Profile</a>
+            </div>
+        </header>
 
+        <main class="main-content">
+            <section class="card section-number">
+                <p class="label">Type your favourite number here:</p>
+                <input id="numberinput" type="text" class="input box2" placeholder="Enter a number">
+                <div id="output" class="output"></div>
+            </section>
 
-  <p>Type your favourite number here:</p>
-    <input id="numberinput" class="box2" >
-   
-<div id="output"></div>
-<button id="connect" class="box2">Connect Wallet</button>
+            <button id="connect" class="btn btn-connect box2">Connect Wallet</button>
 
-       <script src="script.js" type="module"></script>
-       <br>
-       <input type=number class="box3"  id="setvalue"> 
-         <button id="set" class="box4">Set Number</button>
-         <button id="get" class="box5">Get Number</button>
+            <section class="card section-setget">
+                <input type="number" class="input box3" id="setvalue" placeholder="Set value">
+                <div class="btn-row">
+                    <button id="set" class="btn btn-set box4">Set Number</button>
+                    <button id="get" class="btn btn-get box5">Get Number</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js" type="module"></script>
 </body>
-</html>  
+</html>
